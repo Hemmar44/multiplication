@@ -6,8 +6,15 @@ $(function(){
 	var data = [];
 	var saveResults = [];
 	var mark = $("#maths").val();
+	var goodAnswer = true;
+	var answer;
 
 	$("#mark").text(mark);
+
+	
+  	
+  	
+
 
 	$("#quantity").on("change", function(){
 		quantity = Number($(this).val());
@@ -29,8 +36,9 @@ $(function(){
 	$("body").on("click", "#start",function() {
 		var text = $(this).text();
 		$(this).attr("disabled", "disabled");
+		$(".time").css("background-color", "lightgrey");
 		if(text === "Start" || text === "Next") {
-			//alert("start");
+		timer();
 		$("#answer")
 			.removeAttr("disabled")
 			.css({"border" : "1px solid grey", "background-color" : "#fff"})
@@ -120,10 +128,13 @@ $(function(){
 
 	$("#answer").on("blur", function(){
 		var numberInrange = getRandomInt(50, 1050);
-		//alert(numberInrange);
-		var value =$(this).val();
-		var goodAnswer = true;
-		if (Number(value) == Number(data[2])) {
+		answer = $(this).val();
+		//var goodAnswer = true;
+		alert(answer);
+		alert(data[2])
+		//need to think about this
+		$('.timer').countTo('stop');
+		if (Number(answer) == Number(data[2])) {
 			var pictureInRange = getRandomInt(1,5);
 			var image = "<img src='images/happy/"+ pictureInRange + ".jpg'>";
 			correct++;
@@ -151,7 +162,7 @@ $(function(){
 		if (attempts === quantity) {
 			$("#start").text("End");
 		}
-		var result = data[0] + " * " + data[1] + " = " + value + "|" + goodAnswer; 
+		var result = data[0] + " * " + data[1] + " = " + answer + "|" + goodAnswer; 
 		saveResults.push(result);
 		//alert(saveResults);
 		//alert(correct);
@@ -162,6 +173,39 @@ $(function(){
 
 	function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	function timer() {
+	$('.timer').countTo({
+	    from: 15,
+	    to: 0,
+	    speed: 15000,
+	    refreshInterval: 1000,
+	   	
+	    onUpdate: function (value) {
+	      if(value < 5) {
+	      	$(this).closest("div").css("background-color", "red");
+	      }
+	    },
+	    onComplete: function (value) {
+	      var numberInrange = getRandomInt(50, 1050);
+	      var pictureInRange = getRandomInt(1,5);
+		  var image = "<img src='images/sad/"+ pictureInRange +".jpg'>";
+	      $("#answer").val("time").attr("disabled", "disabled");
+	      $("#start").text("Next").removeAttr("disabled");
+	      $("#stats").css({"border" : "1px solid red", "background-color" : "#FF5536"});
+	      $(".sad").css({"left" : numberInrange}).html(image).fadeIn();
+	      attempts++;
+	      percent = Math.round((correct/attempts) * 100);
+	      goodAnswer = false;
+	      var result = data[0] + " * " + data[1] + " = Time Out! |" + goodAnswer; 
+		  saveResults.push(result);
+		  if (attempts === quantity) {
+			$("#start").text("End");
+		}
+	      $("#stats").html("<span id='statistics'>" + correct + "/" + attempts + " from: " + quantity + "|" + percent + "%</span>");
+	    }
+  	});
 	}
 
 });

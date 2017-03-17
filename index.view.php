@@ -1,5 +1,7 @@
 <?php require "header.php"; ?>
 
+<div class="time">Time left: <span class="timer"></span></div>
+
 <h1>Maths for Anna Hędrzak </h1>
 
 <label for="quantity">Choose: </label>
@@ -51,8 +53,9 @@
   src="https://code.jquery.com/jquery-3.2.0.min.js"
   integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
   crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="jquerycountTo/jquery.countTo.js"></script>
 <script type="text/javascript" src=public/script.js></script>
+
 
 </body>
 </html>

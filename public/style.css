@@ -31,6 +31,19 @@ body {
 	border-radius: 5%;
 }
 
+.time {
+	position: fixed;
+	width: 200px;
+	top: 90px;
+	right: 30px;
+	font-size: 1.2em;
+	padding: 3px;
+	border-radius: 5%;
+	background-color: lightgrey;
+	border: 1px solid grey;
+
+}
+
 #summary {
 	position: absolute;
 	margin-left: auto;
