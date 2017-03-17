@@ -23,11 +23,11 @@ body {
 
 #stats {
 	position: fixed;
-	width: 170px;
+	width: 200px;
 	top: 50px;
 	right: 30px;
-	font-size: 1.8em;
-	padding: 5px;
+	font-size: 1.2em;
+	padding: 3px;
 	border-radius: 5%;
 }
 
@@ -84,4 +84,18 @@ ul {
 	right: 0;
 	
 }
+
+.sad, .happy {
+	position: fixed;
+	top: 450px;
+	width: 200px;
+	min-height: 150px;
+	display: none;
+}
+
+img {
+	max-width: 100%
+}
+
+
 

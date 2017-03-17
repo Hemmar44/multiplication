@@ -1,9 +1,30 @@
 $(function(){
+	var quantity = Number($("#quantity").val());
 	var attempts = 0;
 	var correct = 0;
 	var percent;
 	var data = [];
 	var saveResults = [];
+	var mark = $("#maths").val();
+
+	$("#mark").text(mark);
+
+	$("#quantity").on("change", function(){
+		quantity = Number($(this).val());
+	});
+
+	
+
+	$("#maths").on("change", function(){ 
+		mark = $(this).val();
+		if(mark != "random") {
+			$("#mark").text(mark);
+		}
+		else {
+			$("#mark").text("");
+		}
+		});
+	
 
 	$("body").on("click", "#start",function() {
 		var text = $(this).text();
@@ -15,12 +36,14 @@ $(function(){
 			.css({"border" : "1px solid grey", "background-color" : "#fff"})
 			.val("")
 			.focus();
+		$("#quantity").attr("disabled", "disabled");
+		$(".sad, .happy").fadeOut();
 		
 		$.ajax({
   			method: "POST",
   			url: "Multiply.php",
   			context: this,
-  			data: { },
+  			data: { mark: mark },
 			success: function( msg ) {
 			//alert(msg);
 			data = [];
@@ -36,6 +59,8 @@ $(function(){
 			$("#answer")
 			.css({"border" : "1px solid grey", "background-color" : "#fff"})
 			.val("D");
+			$("quantity").removeAttr("disabled");
+
 		var list = "<ul>";
 		for (var i = 0; i < saveResults.length; i++) {
 			var splitted = saveResults[i].split("|");
@@ -82,6 +107,7 @@ $(function(){
 		$("#start").removeAttr("disabled");
 		$("#start").text("Start");
 		$("#stats").css({"background-color" : "white", "border" : "none"}).html("");
+		$("#quantity").removeAttr("disabled");
 		attempts = 0;
 		correct = 0;
 		percent;
@@ -93,16 +119,24 @@ $(function(){
 
 
 	$("#answer").on("blur", function(){
+		var numberInrange = getRandomInt(50, 1050);
+		//alert(numberInrange);
 		var value =$(this).val();
 		var goodAnswer = true;
 		if (Number(value) == Number(data[2])) {
+			var pictureInRange = getRandomInt(1,5);
+			var image = "<img src='images/happy/"+ pictureInRange + ".jpg'>";
 			correct++;
 			$(this).css({"border" : "1px solid green", "background-color" : "#70F77A"});
 			$("#stats").css({"border" : "1px solid green", "background-color" : "#70F77A"});
+			$(".happy").css({"left" : numberInrange}).html(image).fadeIn();
 		}
 		else {
+			var pictureInRange = getRandomInt(1,5);
+			var image = "<img src='images/sad/"+ pictureInRange +".jpg'>";
 			$(this).css({"border" : "1px solid red", "background-color" : "#FF5536"});
 			$("#stats").css({"border" : "1px solid red", "background-color" : "#FF5536"});
+			$(".sad").css({"left" : numberInrange}).html(image).fadeIn();
 			goodAnswer = false;
 		}
 		$("#start").text("Next").removeAttr("disabled");
@@ -114,7 +148,7 @@ $(function(){
 		else {
 			percent = Math.round((correct/attempts) * 100);
 		}
-		if (attempts === 10) {
+		if (attempts === quantity) {
 			$("#start").text("End");
 		}
 		var result = data[0] + " * " + data[1] + " = " + value + "|" + goodAnswer; 
@@ -123,7 +157,11 @@ $(function(){
 		//alert(correct);
 		//alert(attempts);
 
-		$("#stats").html("<span id='statistics'>" + correct + "/" + attempts + "|" + percent + "%</span>");
+		$("#stats").html("<span id='statistics'>" + correct + "/" + attempts + " from: " + quantity + "|" + percent + "%</span>");
 	});
+
+	function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 
 });
