@@ -31,7 +31,7 @@ class Maths {
 		do{ 
 			shuffle($first);
 			shuffle($second);
-		} while ($first[0] + $second[0] >=100);
+		} while ($first[0] + $second[0] >=20);
 
 		$this->first = $first[0];
 		$this->second = $second[0];

@@ -6,13 +6,13 @@ $mark = $_POST["mark"];
 
 switch ($mark) {
     case "+":
-        $maths->addition(0, 100, 0, 100);      
+        $maths->addition(1, 10, 1, 10);      
         break;
     case "-":
         $maths->substraction(0, 100, 0, 100);
         break;
     case "*":
-        $maths->multiplication(1, 10, 1, 10);
+        $maths->multiplication(1, 10, 1, 5);
         break;
     case "/":
         $maths->division(0, 100, 2, 10);
