@@ -2,7 +2,7 @@
 
 <div class="time">Time left: <span class="timer"></span></div>
 
-<h1>Maths for Anna Hędrzak </h1>
+<h1>Math for second grade</h1>
 
 <label for="quantity">Choose: </label>
 <select id="quantity">
